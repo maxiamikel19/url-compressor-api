@@ -30,7 +30,7 @@ public class UrlServiceImpl implements UrlService {
             throw new DataIntegrityException("Url is required");
         }
 
-        if (url.getDuration() == 0 || url.getDuration() == null) {
+        if (url.getDuration() == 0) {
             url.setDuration(1L);
         }
 

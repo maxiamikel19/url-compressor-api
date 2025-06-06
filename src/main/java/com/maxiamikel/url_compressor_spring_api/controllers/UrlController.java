@@ -39,7 +39,7 @@ public class UrlController {
 
             int hour = newUrl.getExpiredAt().getHour();
             int min = newUrl.getExpiredAt().getMinute();
-            int sec = newUrl.getExpiredAt().getMinute();
+            int sec = newUrl.getExpiredAt().getSecond();
             String expireAt = hour + ":" + min + ":" + sec;
 
             var response = new UrlResponseDto(compressedUrl, expireAt);
