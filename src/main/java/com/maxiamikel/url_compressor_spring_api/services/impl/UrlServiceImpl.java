@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.maxiamikel.url_compressor_spring_api.dtos.UrlCreateDto;
 import com.maxiamikel.url_compressor_spring_api.entities.UrlEntity;
+import com.maxiamikel.url_compressor_spring_api.exception.DataIntegrityException;
+import com.maxiamikel.url_compressor_spring_api.exception.ResourceNotFoundException;
 import com.maxiamikel.url_compressor_spring_api.repositories.UrlRepository;
 import com.maxiamikel.url_compressor_spring_api.services.UrlService;
 
@@ -21,9 +24,10 @@ public class UrlServiceImpl implements UrlService {
     private RandomStringReneratorServiceImpl randomStringReneratorService;
 
     @Override
+    @Transactional
     public UrlEntity compresseAndSaveUrl(UrlCreateDto url) {
-        if (url.getOriginalUrl().length() == 0) {
-            throw new RuntimeException("Url is required");
+        if (url.getOriginalUrl().trim().length() == 0) {
+            throw new DataIntegrityException("Url is required");
         }
 
         if (url.getDuration() == 0 || url.getDuration() == null) {
@@ -46,7 +50,7 @@ public class UrlServiceImpl implements UrlService {
 
         Optional<UrlEntity> opUrl = urlRepository.findById(id);
         if (!opUrl.isPresent()) {
-            throw new RuntimeException("Url not exists or edpired");
+            throw new ResourceNotFoundException("Url not exists or edpired");
         }
 
         return opUrl.get();

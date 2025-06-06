@@ -21,6 +21,8 @@ public class UrlEntity {
 
     private String originalUrl;
 
+    private String compressedUrl;
+
     @Indexed(expireAfterSeconds = 0)
     private LocalDateTime expiredAt;
 
